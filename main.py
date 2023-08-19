@@ -4,6 +4,7 @@ from player import Player
 WIDTH = 1000
 HEIGHT = 600
 TITLE = "PAC-MAN"
+SPEED = 1
 
 class PacMan(arcade.Window):
     def __init__(self):
@@ -19,12 +20,39 @@ class PacMan(arcade.Window):
             center_y=HEIGHT / 2
         )
         self.sprites.append(self.player)
-        self.start_point = ()
-        self.end_point = ()
         self.distance = 0
 
+
+    def on_key_press(self, symbol: int, modifiers: int):
+        """Metodo para detectar teclas que han sido presionada
+        El punto se movera con las teclas de direccion.
+        Argumentos:
+            symbol: tecla presionada
+            modifiers: modificadores presionados
+        """
+        if symbol == arcade.key.UP:
+            self.player.change_y = SPEED
+        if symbol == arcade.key.DOWN:
+            self.player.change_y = -SPEED
+
+        if symbol == arcade.key.LEFT:
+            self.player.change_x = -SPEED
+        if symbol == arcade.key.RIGHT:
+            self.player.change_x= SPEED
+
+
+    def on_key_release(self, symbol: int, modifiers: int):
+        if symbol in (arcade.key.UP, arcade.key.DOWN):
+            self.player.change_x = 0
+        if symbol in (arcade.key.LEFT, arcade.key.RIGHT):
+            self.player.change_y = 0
+
+    def on_update(self, delta_time: float):
+        """Metodo para actualizar objetos de la app"""
+        self.sprites.update()
+
+
     def on_draw(self):
-        """Metodo para dibujar en la pantalla"""
         arcade.start_render()
         self.sprites.draw()
 

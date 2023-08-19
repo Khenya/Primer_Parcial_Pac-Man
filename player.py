@@ -14,3 +14,5 @@ class Player(arcade.Sprite):
 
         self.center_x += -self.speed * math.sin(angle_rad)
         self.center_y += self.speed * math.cos(angle_rad)
+
+    

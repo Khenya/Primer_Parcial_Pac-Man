@@ -19,14 +19,33 @@ class PacMan(arcade.Window):
             center_y=HEIGHT / 2
         )
         self.sprites.append(self.player)
-        self.start_point = ()
-        self.end_point = ()
         self.distance = 0
+
+    def on_key_press(self, key, modifiers):
+        """Manejo de eventos cuando se presionan teclas"""
+        print (key)
+        if key == arcade.key.LEFT:
+            self.player.change_x = -10
+        elif key == arcade.key.RIGHT:
+            self.player.change_x = 10
+        elif key == arcade.key.UP:
+            self.player.change_y = 10
+        elif key == arcade.key.DOWN:
+            self.player.change_y = -10
+
+    def on_key_release(self, key, modifiers):
+        """Manejo de eventos cuando se sueltan teclas"""
+        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
+            self.player.change_x = 0
+        elif key == arcade.key.UP or key == arcade.key.DOWN:
+            self.player.change_y = 0
 
     def on_draw(self):
         """Metodo para dibujar en la pantalla"""
         arcade.start_render()
         self.sprites.draw()
+    
+    
 
 def main():
     app = PacMan()

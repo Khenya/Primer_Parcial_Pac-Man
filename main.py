@@ -1,10 +1,10 @@
 import arcade
 import random
-from player import Player, Point
+from player import Player
 from enemies import Enemies
 # constantes
 WIDTH = 800
-HEIGHT = 576
+HEIGHT = 600
 TITLE = "PAC-MAN"
 SPEED = 1
 FONT = arcade.load_font("font_name/PublicPixel-z84yD.ttf")
@@ -90,6 +90,8 @@ class PacMan(arcade.Window):
  
     def on_draw(self):
         arcade.start_render()
+        if self.game_over:
+            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center")
         arcade.draw_rectangle_outline(100, 100, 100, 100, arcade.color.BLUE, border_width= 4)
         for sprite in  self.sprites:
             if isinstance(sprite, Player):
@@ -101,8 +103,6 @@ class PacMan(arcade.Window):
                     sprite.angle = 180
                 else:
                     sprite.angle = 0
-        if self.game_over:
-            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center")
         
         arcade.draw_text(f"Score: {self.score}", 10, HEIGHT - 40)
         

@@ -10,7 +10,6 @@ WIDTH = 600
 HEIGHT = 600
 TITLE = "PAC-MAN"
 SPEED = 1
-# FONT = arcade.load_font("font_name/PublicPixel-z84yD.ttf")
 
 class PacMan(arcade.Window):
     def __init__(self):
@@ -18,6 +17,7 @@ class PacMan(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.game_over = False
         self.score = 0
+        self.FONT = arcade.load_font("font_name/MunroNarrow-vaO4.ttf")
 
         # crear espacio de Pymunk
         self.space = pymunk.Space()
@@ -73,18 +73,21 @@ class PacMan(arcade.Window):
                 x = self.espacio_x + (columna * (self.tamano_cuadrado + self.espacio_x))
                 y = self.espacio_y + (fila * (self.tamano_cuadrado + self.espacio_y))           
                 # Crear el cuerpo y la forma del cuadrado
-                cuerpo = pymunk.Body(body_type=pymunk.Body.STATIC)
-                cuerpo.position = x, y
-                
-                forma = pymunk.Poly.create_box(cuerpo, (self.tamano_cuadrado, self.tamano_cuadrado))
+                cubo_body = pymunk.Body(body_type=pymunk.Body.STATIC)
+                # cubo_shape = pymunk.Segment(cubo_body,[self.x_inicial, self.y_inicial], [self.x_inicial + self.tamano_cuadrado, self.y_inicial + self.tamano_cuadrado], 0.0)
+                cubo_body.position = x, y
+                forma = pymunk.Poly.create_box(cubo_body, (self.tamano_cuadrado, self.tamano_cuadrado))
                 forma.friction = 0.0       
                 # Agregar el cuerpo y la forma al espacio
-                self.space.add(cuerpo, forma)
+                self.space.add(cubo_body, forma)
                 
         # musica
         # self.come= arcade.load_sound("musica/pacman_sound.ogg")
         # self.fail= arcade.load_sound("musica/game_over_sound.ogg")
     
+    # def play(self):
+    #     self.sound.play(pan=self.pan, volume=self.volume)
+
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.UP:
             self.player.change_y = SPEED
@@ -107,7 +110,11 @@ class PacMan(arcade.Window):
 
     def on_update(self, delta_time: float):   
         self.space.step(delta_time)
+        # collitions
         # contacts = self.space.shape_query(self.player.shape)
+        # if contacts:
+        #     self.player.center_x=0
+        #     self.player.center_y=0
 
         # perder
         if arcade.check_for_collision(self.enemies, self.player):
@@ -118,7 +125,7 @@ class PacMan(arcade.Window):
         self.enemies.update()
         self.sprites.update()
         self.update_point()
-    
+
     # puntos
     def update_point(self):
         for p in self.point:
@@ -131,7 +138,8 @@ class PacMan(arcade.Window):
 
         # perder
         if self.game_over:
-            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center")
+            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center", font_name= self.FONT)
+            # button_sprite.play()
            
         # pac man
         for sprite in  self.sprites:

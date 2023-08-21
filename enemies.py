@@ -28,7 +28,13 @@ class Enemies(arcade.Sprite):
         
 
     def update(self):
+        print(self.body.position)
+        print(self.center_x,self.center_y)
         self.center_x += self.change_x
         if self.left < 0 or self.right > WIDTH:
             self.change_x *= -1
         self.body.position = (self.center_x, self.center_y)
+
+        # cordinar con shape
+        self.center_x = self.body.position.x
+        self.center_y = self.body.position.y

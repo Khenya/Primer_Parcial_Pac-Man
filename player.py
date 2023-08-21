@@ -27,8 +27,9 @@ class Player(arcade.Sprite):
         space.add(self.body, self.shape)
     
     def update(self):
-        print(self.body.position)
-        print(self.center_x,self.center_y)
+    #     print(self.body.position)
+    #     print(self.center_x,self.center_y)
+        
         if self.right < 0:
             self.left = WIDTH
         elif self.left > WIDTH:
@@ -43,4 +44,8 @@ class Player(arcade.Sprite):
 
         self.body.position = (self.center_x, self.center_y)
         self.body.position = (self.center_x, self.center_y)
+
+        # cordinar sprite con shape
+        self.center_x = self.body.position.x
+        self.center_y = self.body.position.y
         

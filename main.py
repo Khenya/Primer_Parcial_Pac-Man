@@ -6,6 +6,7 @@ from player import Player
 from enemies import Enemies
 
 # constantes
+
 WIDTH = 600
 HEIGHT = 600
 TITLE = "PAC-MAN"
@@ -17,7 +18,7 @@ class PacMan(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.game_over = False
         self.score = 0
-        self.FONT = arcade.load_font("font_name/MunroNarrow-vaO4.ttf")
+        # self.FONT = arcade.load_font("font_name/MunroNarrow-vaO4.ttf")
 
         # crear espacio de Pymunk
         self.space = pymunk.Space()
@@ -38,11 +39,11 @@ class PacMan(arcade.Window):
 
         # Crear al enemigo y agregarlo a la lista de sprites
         self.enemies = Enemies(
-            "img/enemies.png",  
-            1, 
-            center_x=100, 
-            center_y=300,
-            space=self.space
+        "img/enemies.png",  
+        1, 
+        center_x=100, 
+        center_y=300,
+        space=self.space
         )
         self.sprites.append(self.enemies)
 
@@ -62,8 +63,8 @@ class PacMan(arcade.Window):
         self.filas = 5
         self.columnas = 5
         # Calcular el espacio entre los cuadrados
-        self.espacio_x = (WIDTH - (self.columnas * self.tamano_cuadrado)) // (self.columnas + 1) + 25
-        self.espacio_y = (HEIGHT - (self.filas * self.tamano_cuadrado)) // (self.filas + 1) + 25
+        self.espacio_x = (WIDTH - (self.columnas * self.tamano_cuadrado)) // (self.columnas + 1) + 50
+        self.espacio_y = (HEIGHT - (self.filas * self.tamano_cuadrado)) // (self.filas + 1) + 50
 
         # Calcular la posición inicial
         self.x_inicial = self.espacio_x + self.tamano_cuadrado // 2
@@ -74,7 +75,6 @@ class PacMan(arcade.Window):
                 y = self.espacio_y + (fila * (self.tamano_cuadrado + self.espacio_y))           
                 # Crear el cuerpo y la forma del cuadrado
                 cubo_body = pymunk.Body(body_type=pymunk.Body.STATIC)
-                # cubo_shape = pymunk.Segment(cubo_body,[self.x_inicial, self.y_inicial], [self.x_inicial + self.tamano_cuadrado, self.y_inicial + self.tamano_cuadrado], 0.0)
                 cubo_body.position = x, y
                 forma = pymunk.Poly.create_box(cubo_body, (self.tamano_cuadrado, self.tamano_cuadrado))
                 forma.friction = 0.0       
@@ -110,12 +110,6 @@ class PacMan(arcade.Window):
 
     def on_update(self, delta_time: float):   
         self.space.step(delta_time)
-        # collitions
-        # contacts = self.space.shape_query(self.player.shape)
-        # if contacts:
-        #     self.player.center_x=0
-        #     self.player.center_y=0
-
         # perder
         if arcade.check_for_collision(self.enemies, self.player):
             self.game_over = True

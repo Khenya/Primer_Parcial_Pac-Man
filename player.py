@@ -2,7 +2,11 @@ import arcade
 import pymunk
 
 # constantes
+<<<<<<< HEAD
 WIDTH = 600
+=======
+WIDTH = 800
+>>>>>>> 767cdaa7660a050be1cc23ad949df8b26ad02d81
 HEIGHT = 600
 SPEED = 1
 
@@ -39,7 +43,20 @@ class Player(arcade.Sprite):
         self.center_x += -self.change_x
         self.center_y += self.change_y
 
+<<<<<<< HEAD
         self.body.position = (self.center_x, self.center_y)
         
+=======
+
+        self.body.position = (self.center_x, self.center_y)
+        
+
+class Character:
+    def __init__(self, x, y, life, size) -> None:
+        self.x = x
+        self.y = y
+        self.life = life
+        self.size = size
+>>>>>>> 767cdaa7660a050be1cc23ad949df8b26ad02d81
 
         

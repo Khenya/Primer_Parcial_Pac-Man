@@ -2,7 +2,11 @@ import arcade
 import pymunk
 
 # constantes
+<<<<<<< HEAD
 WIDTH = 600
+=======
+WIDTH = 800
+>>>>>>> 767cdaa7660a050be1cc23ad949df8b26ad02d81
 HEIGHT = 600
 SPEED = 1.5
 class Enemies(arcade.Sprite):

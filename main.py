@@ -21,7 +21,10 @@ class PacMan(arcade.Window):
 
         # crear espacio de Pymunk
         self.space = pymunk.Space()
+<<<<<<< HEAD
         self.space.gravity = (0, 0)  
+=======
+>>>>>>> 767cdaa7660a050be1cc23ad949df8b26ad02d81
 
         # Lista de sprites para dibujar
         self.sprites = arcade.SpriteList()
@@ -56,6 +59,7 @@ class PacMan(arcade.Window):
             self.sprites.append(point)
 
         # Crear fondo
+<<<<<<< HEAD
         # Calcular el tamaño del cuadrado
         self.tamano_cuadrado = 100
         # Calcular la cantidad de filas y columnas
@@ -81,6 +85,14 @@ class PacMan(arcade.Window):
                 # Agregar el cuerpo y la forma al espacio
                 self.space.add(cuerpo, forma)
                 
+=======
+        body = pymunk.Body(1.0, pymunk.moment_for_box(1.0, (100, 100)))
+        body.position = (400, 100)
+        self.shape = pymunk.Poly.create_box(body, (100, 100))
+        self.body_sprite = arcade.SpriteSolidColor(100, 100, arcade.color.BLUE)
+        self.space.add(body)
+
+>>>>>>> 767cdaa7660a050be1cc23ad949df8b26ad02d81
         # musica
         # self.come= arcade.load_sound("musica/pacman_sound.ogg")
         # self.fail= arcade.load_sound("musica/game_over_sound.ogg")
@@ -105,6 +117,7 @@ class PacMan(arcade.Window):
         if symbol in (arcade.key.LEFT, arcade.key.RIGHT):
             self.player.change_y = 0
 
+<<<<<<< HEAD
     def on_update(self, delta_time: float):   
         self.space.step(delta_time)
         # contacts = self.space.shape_query(self.player.shape)
@@ -113,8 +126,22 @@ class PacMan(arcade.Window):
         if arcade.check_for_collision(self.enemies, self.player):
             self.game_over = True
             # arcade.play_sound(self.fail,1)
+=======
+         
+    def on_update(self, delta_time: float):   
+        self.space.step(delta_time)
+        contacts = self.space.shape_query(self.player.shape)
+
+        
+        # perder
+        if arcade.check_for_collision(self.enemies, self.player):
+            self.game_over = True
+             # arcade.play_sound(self.fail,1)
+>>>>>>> 767cdaa7660a050be1cc23ad949df8b26ad02d81
             return
         
+        self.body_sprite.set_position(self.shape.body.position.x, self.shape.body.position.y)
+
         self.enemies.update()
         self.sprites.update()
         self.update_point()
@@ -145,6 +172,7 @@ class PacMan(arcade.Window):
                 else:
                     sprite.angle = 0
         
+<<<<<<< HEAD
         # Dibujar los cuadrados
         for fila in range(self.filas):
             for columna in range(self.columnas):
@@ -154,6 +182,11 @@ class PacMan(arcade.Window):
                 arcade.draw_rectangle_outline(x, y, self.tamano_cuadrado, self.tamano_cuadrado, arcade.color.BLUE,5)
         # score
         arcade.draw_text(f"Score: {self.score}", 10, HEIGHT - 40)
+=======
+        # score
+        arcade.draw_text(f"Score: {self.score}", 10, HEIGHT - 40)
+        self.body_sprite.draw()
+>>>>>>> 767cdaa7660a050be1cc23ad949df8b26ad02d81
         self.sprites.draw()   
         
 def main():

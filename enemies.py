@@ -4,13 +4,15 @@ import pymunk
 # constantes
 WIDTH = 600
 HEIGHT = 600
-SPEED = 1.5
+SPEED = 1
+
 class Enemies(arcade.Sprite):
     def __init__(self, image, scale, center_x, center_y, space):
         super().__init__(image, scale)
         self.center_x = center_x
         self.center_y = center_y
         self.change_x = SPEED
+        self.space = space 
         
         mass = 1.0
         moment = pymunk.moment_for_box(mass, (self.width, self.height))
@@ -24,17 +26,27 @@ class Enemies(arcade.Sprite):
         self.shape = shape
 
         # Agregar el cuerpo y la forma a la space de pymunk
-        space.add(self.body, self.shape)
-        
+        self.space.add(self.body, self.shape)
 
     def update(self):
-        print(self.body.position)
         print(self.center_x,self.center_y)
         self.center_x += self.change_x
+
+        next_x = self.center_x + self.change_x
         if self.left < 0 or self.right > WIDTH:
             self.change_x *= -1
-        self.body.position = (self.center_x, self.center_y)
-
-        # cordinar con shape
+            self.body.position = (self.center_x, self.center_y)
+  
+        # Consultar si hay un obstáculo en la dirección en la que se moverá el enemigo
+        if not self.check_obstacle(next_x, self.center_y):
+            self.center_x = next_x
+            self.body.position = (self.center_x, self.center_y)
+        
+        # Coordinar con shape
         self.center_x = self.body.position.x
         self.center_y = self.body.position.y
+
+    def check_obstacle(self, x, y):
+        # Consultar si hay un obstáculo en la posición (x, y)
+        hit_shape = self.space.point_query_nearest((x, y), 0.5, pymunk.ShapeFilter())
+        return hit_shape is not None and hit_shape.shape.body.body_type == pymunk.Body.STATIC

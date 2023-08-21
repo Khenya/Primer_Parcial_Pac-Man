@@ -17,6 +17,7 @@ class PacMan(arcade.Window):
         super().__init__(WIDTH, HEIGHT, TITLE)
         arcade.set_background_color(arcade.color.BLACK)
         self.game_over = False
+        self.winer = False
         self.score = 0
         # self.FONT = arcade.load_font("font_name/MunroNarrow-vaO4.ttf")
 
@@ -115,6 +116,11 @@ class PacMan(arcade.Window):
             self.game_over = True
              # arcade.play_sound(self.fail,1)
             return
+        
+        # ganar
+        if len(self.point) == 0:
+            self.winer = True
+            return
 
         self.enemies.update()
         self.sprites.update()
@@ -126,14 +132,17 @@ class PacMan(arcade.Window):
             if arcade.check_for_collision(p, self.player):
                 p.remove_from_sprite_lists()
                 self.score += 1
+            
   
     def on_draw(self):
         arcade.start_render()
 
         # perder
         if self.game_over:
-            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center", font_name= self.FONT)
+            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center")
             # button_sprite.play()
+        elif self.winer:
+            arcade.draw_text("WINNER", WIDTH / 2, HEIGHT / 2, arcade.color.GOLD, 36, anchor_x="center", anchor_y="center")
            
         # pac man
         for sprite in  self.sprites:

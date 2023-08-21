@@ -1,13 +1,16 @@
 import arcade
 import random
+import pymunk
+
 from player import Player
 from enemies import Enemies
+
 # constantes
 WIDTH = 800
 HEIGHT = 600
 TITLE = "PAC-MAN"
 SPEED = 1
-FONT = arcade.load_font("font_name/PublicPixel-z84yD.ttf")
+# FONT = arcade.load_font("font_name/PublicPixel-z84yD.ttf")
 
 class PacMan(arcade.Window):
     def __init__(self):
@@ -15,24 +18,35 @@ class PacMan(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.game_over = False
         self.score = 0
-        # sprite list para dibujar
+
+        # crear espacio de Pymunk
+        self.space = pymunk.Space()
+
+        # Lista de sprites para dibujar
         self.sprites = arcade.SpriteList()
+
+        # Crear al jugador y agregarlo a la lista de sprites
         self.player = Player(
             "img/player.png", 
             1, 
             center_x=WIDTH / 2, 
-            center_y=HEIGHT / 2
+            center_y=HEIGHT / 2, 
+            space=self.space
         )
         self.sprites.append(self.player)
+
+        # Crear al enemigo y agregarlo a la lista de sprites
         self.enemies = Enemies(
             "img/enemies.png",  
             1, 
             center_x=100, 
-            center_y=300
+            center_y=300,
+            space=self.space
         )
         self.sprites.append(self.enemies)
-        self.point = arcade.SpriteList()
 
+        # Crear puntos
+        self.point = arcade.SpriteList()
         for _ in range(23):
             point = arcade.SpriteSolidColor(5, 5, arcade.color.WHITE)
             point.center_x = random.randint(10, WIDTH - 10)
@@ -40,10 +54,17 @@ class PacMan(arcade.Window):
             self.point.append(point)
             self.sprites.append(point)
 
-        self.obstacle = arcade.SpriteSolidColor(100, 100, arcade.color.BLUE)
-        self.obstacle.center_x = 100
-        self.obstacle.center_y = 100
+        # Crear fondo
+        body = pymunk.Body(1.0, pymunk.moment_for_box(1.0, (100, 100)))
+        body.position = (400, 100)
+        self.shape = pymunk.Poly.create_box(body, (100, 100))
+        self.body_sprite = arcade.SpriteSolidColor(100, 100, arcade.color.BLUE)
+        self.space.add(body)
 
+        # musica
+        # self.come= arcade.load_sound("musica/pacman_sound.ogg")
+        # self.fail= arcade.load_sound("musica/game_over_sound.ogg")
+    
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.UP:
             self.player.change_y = SPEED
@@ -63,25 +84,26 @@ class PacMan(arcade.Window):
             self.player.change_x = 0
         if symbol in (arcade.key.LEFT, arcade.key.RIGHT):
             self.player.change_y = 0
-            
+
+         
     def on_update(self, delta_time: float):   
+        self.space.step(delta_time)
+        contacts = self.space.shape_query(self.player.shape)
+
+        
+        # perder
         if arcade.check_for_collision(self.enemies, self.player):
             self.game_over = True
+             # arcade.play_sound(self.fail,1)
             return
-        elif arcade.check_for_collision(self.obstacle, self.player):
-            if self.player.change_x > 0 and self.player.direction == "right":
-                self.player.change_x = 0
-            if self.player.change_x < 0 and self.player.direction == "left":
-                self.player.change_x = 0
-            if self.player.change_y > 0 and self.player.direction == "up":
-                self.player.change_y = 0
-            if self.player.change_y < 0 and self.player.direction == "down":
-                self.player.change_y = 0
         
+        self.body_sprite.set_position(self.shape.body.position.x, self.shape.body.position.y)
+
         self.enemies.update()
         self.sprites.update()
         self.update_point()
     
+    # puntos
     def update_point(self):
         for p in self.point:
             if arcade.check_for_collision(p, self.player):
@@ -90,9 +112,12 @@ class PacMan(arcade.Window):
  
     def on_draw(self):
         arcade.start_render()
+
+        # perder
         if self.game_over:
             arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center")
-        arcade.draw_rectangle_outline(100, 100, 100, 100, arcade.color.BLUE, border_width= 4)
+           
+        # pac man
         for sprite in  self.sprites:
             if isinstance(sprite, Player):
                 if sprite.direction == "up":
@@ -104,8 +129,9 @@ class PacMan(arcade.Window):
                 else:
                     sprite.angle = 0
         
+        # score
         arcade.draw_text(f"Score: {self.score}", 10, HEIGHT - 40)
-        
+        self.body_sprite.draw()
         self.sprites.draw()   
         
 def main():

@@ -134,10 +134,10 @@ class PacMan(arcade.Window):
 
         if hit_shape_x is not None and hit_shape_x.shape.body.body_type == pymunk.Body.STATIC:
             self.player.change_x = 0
-            print("collition")
+            # print("collition")
         if hit_shape_y is not None and hit_shape_y.shape.body.body_type == pymunk.Body.STATIC:
             self.player.change_y = 0
-            print("choque")
+            # print("choque")
             
         self.enemies.update()
         self.sprites.update()

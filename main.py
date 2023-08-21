@@ -6,7 +6,6 @@ from player import Player
 from enemies import Enemies
 
 # constantes
-
 WIDTH = 600
 HEIGHT = 600
 TITLE = "PAC-MAN"
@@ -31,20 +30,20 @@ class PacMan(arcade.Window):
         # Crear al jugador y agregarlo a la lista de sprites
         self.player = Player(
             "img/player.png", 
-            1, 
-            center_x=WIDTH / 2, 
-            center_y=HEIGHT / 2, 
+            0.7, 
+            0, 
+            0, 
             space=self.space
         )
         self.sprites.append(self.player)
 
         # Crear al enemigo y agregarlo a la lista de sprites
         self.enemies = Enemies(
-        "img/enemies.png",  
-        1, 
-        center_x=100, 
-        center_y=300,
-        space=self.space
+            "img/enemies.png",  
+            0.7, 
+            center_x=100, 
+            center_y=300,
+            space=self.space
         )
         self.sprites.append(self.enemies)
 
@@ -64,8 +63,8 @@ class PacMan(arcade.Window):
         self.filas = 5
         self.columnas = 5
         # Calcular el espacio entre los cuadrados
-        self.espacio_x = (WIDTH - (self.columnas * self.tamano_cuadrado)) // (self.columnas + 1) + 50
-        self.espacio_y = (HEIGHT - (self.filas * self.tamano_cuadrado)) // (self.filas + 1) + 50
+        self.espacio_x = (WIDTH - (self.columnas * self.tamano_cuadrado)) // (self.columnas + 1) + 30
+        self.espacio_y = (HEIGHT - (self.filas * self.tamano_cuadrado)) // (self.filas + 1) + 30
 
         # Calcular la posición inicial
         self.x_inicial = self.espacio_x + self.tamano_cuadrado // 2
@@ -116,12 +115,30 @@ class PacMan(arcade.Window):
             self.game_over = True
              # arcade.play_sound(self.fail,1)
             return
-        
         # ganar
         if len(self.point) == 0:
             self.winer = True
             return
 
+        # Obtener las coordenadas actuales del jugador
+        current_x = self.player.center_x
+        current_y = self.player.center_y
+
+        # Calcular las coordenadas después del movimiento
+        next_x = current_x + self.player.change_x
+        next_y = current_y + self.player.change_y
+
+        # Verificar colisiones con bloques estáticos
+        hit_shape_x = self.space.point_query_nearest((next_x, current_y), 0.2, pymunk.ShapeFilter())
+        hit_shape_y = self.space.point_query_nearest((next_y, current_y), 0.2, pymunk.ShapeFilter())
+
+        if hit_shape_x is not None and hit_shape_x.shape.body.body_type == pymunk.Body.STATIC:
+            self.player.change_x = 0
+            print("collition")
+        if hit_shape_y is not None and hit_shape_y.shape.body.body_type == pymunk.Body.STATIC:
+            self.player.change_y = 0
+            print("choque")
+            
         self.enemies.update()
         self.sprites.update()
         self.update_point()
@@ -133,11 +150,10 @@ class PacMan(arcade.Window):
                 p.remove_from_sprite_lists()
                 self.score += 1
             
-  
     def on_draw(self):
         arcade.start_render()
 
-        # perder
+        # perder y ganar
         if self.game_over:
             arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center")
             # button_sprite.play()
@@ -163,6 +179,7 @@ class PacMan(arcade.Window):
                 y = self.y_inicial + (fila * (self.tamano_cuadrado + self.espacio_y))
                 
                 arcade.draw_rectangle_outline(x, y, self.tamano_cuadrado, self.tamano_cuadrado, arcade.color.BLUE,5)
+        
         # score
         arcade.draw_text(f"Score: {self.score}", 10, HEIGHT - 40)
         self.sprites.draw()   

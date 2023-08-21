@@ -48,4 +48,6 @@ class Player(arcade.Sprite):
         # cordinar sprite con shape
         self.center_x = self.body.position.x
         self.center_y = self.body.position.y
+
+    
         

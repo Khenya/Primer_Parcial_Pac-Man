@@ -29,7 +29,6 @@ class Enemies(arcade.Sprite):
         self.space.add(self.body, self.shape)
 
     def update(self):
-        print(self.center_x,self.center_y)
         self.center_x += self.change_x
 
         next_x = self.center_x + self.change_x

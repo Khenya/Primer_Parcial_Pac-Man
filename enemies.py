@@ -31,12 +31,13 @@ class Enemies(arcade.Sprite):
         self.space.add(self.body, self.shape)
 
     def update(self):
-        self.center_x += self.change_x
         next_x = self.center_x + self.change_x
+        
+        # Rebotar al llegar a los bordes de la pantalla
         if self.left < 0 or self.right > WIDTH:
-            self.change_x *= -1
-            self.body.position = (self.center_x, self.center_y)
-  
+            self.change_x *= -1  # Invertir la dirección
+            next_x = self.center_x + self.change_x
+
         # Consultar si hay un cubo en la dirección en la que se moverá el enemigo
         if not self.check_obstacle(next_x, self.center_y):
             self.center_x = next_x

@@ -30,13 +30,13 @@ class PacMan(arcade.Window):
         self.player = Player(
             "img/player.png", 
             0.7, 
-            0, 
-            500, 
+            WIDTH/2, 
+            HEIGHT/2 + 5, 
             space=self.space
         )
         self.sprites.append(self.player)
 
-        # Crear al enemigo y agregarlo a la lista de sprites
+        # Crear al enemigo 1 y agregarlo a la lista de sprites
         self.enemies = Enemies(
             "img/enemies.png",  
             0.7, 
@@ -46,11 +46,12 @@ class PacMan(arcade.Window):
         )
         self.sprites.append(self.enemies)
 
+        # Crear al enemigo 2 y agregarlo a la lista de sprites
         self.enemies_2 = Enemies(
             "img/enemies2.png",
             0.045,
             center_x=200,
-            center_y=440,
+            center_y=445,
             space=self.space
         )
         self.sprites.append(self.enemies_2)
@@ -80,7 +81,7 @@ class PacMan(arcade.Window):
             "img/enemies5.png",
             0.05,
             center_x = 100,
-            center_y = 30,
+            center_y = 25,
             space=self.space
         )
         self.sprites.append(self.enemies_5)
@@ -229,7 +230,6 @@ class PacMan(arcade.Window):
                 p.remove_from_sprite_lists()
                 self.score += 1
             
-        
 def main():
     app = PacMan()
     arcade.run()

@@ -27,26 +27,14 @@ class Player(arcade.Sprite):
         space.add(self.body, self.shape)
     
     def update(self):
-    #     print(self.body.position)
-    #     print(self.center_x,self.center_y)       
-        if self.right < 0:
-            self.left = WIDTH
-        elif self.left > WIDTH:
-            self.right = 0
-        if self.top < 0:
-            self.bottom = HEIGHT
-        elif self.bottom > HEIGHT:
-            self.top = 0
+        # print(self.body.position)
+        # print(self.center_x,self.center_y)       
+        if self.change_x != 0 or self.change_y != 0:
+            self.body.velocity = (self.change_x * SPEED, self.change_y * SPEED)
+        else:
+            self.body.velocity = (0, 0)
 
-        self.center_x += -self.change_x
-        self.center_y += self.change_y
-
-        self.body.position = (self.center_x, self.center_y)
-        self.body.position = (self.center_x, self.center_y)
-
-        # cordinar sprite con shape
+        # Sincronizar posición del sprite con el cuerpo de pymunk
         self.center_x = self.body.position.x
-        self.center_y = self.body.position.y
-
-    
+        self.center_y = self.body.position.y   
         

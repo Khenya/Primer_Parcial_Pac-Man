@@ -1,5 +1,4 @@
 import arcade
-import random
 import pymunk
 
 from player import Player

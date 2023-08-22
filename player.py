@@ -28,8 +28,7 @@ class Player(arcade.Sprite):
     
     def update(self):
     #     print(self.body.position)
-    #     print(self.center_x,self.center_y)
-        
+    #     print(self.center_x,self.center_y)       
         if self.right < 0:
             self.left = WIDTH
         elif self.left > WIDTH:

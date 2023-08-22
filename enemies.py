@@ -36,7 +36,7 @@ class Enemies(arcade.Sprite):
             self.change_x *= -1
             self.body.position = (self.center_x, self.center_y)
   
-        # Consultar si hay un obstáculo en la dirección en la que se moverá el enemigo
+        # Consultar si hay un cubo en la dirección en la que se moverá el fantasma
         if not self.check_obstacle(next_x, self.center_y):
             self.center_x = next_x
             self.body.position = (self.center_x, self.center_y)
@@ -46,6 +46,6 @@ class Enemies(arcade.Sprite):
         self.center_y = self.body.position.y
 
     def check_obstacle(self, x, y):
-        # Consultar si hay un obstáculo en la posición (x, y)
+        # Consultar si hay un cuadrado
         hit_shape = self.space.point_query_nearest((x, y), 0.5, pymunk.ShapeFilter())
         return hit_shape is not None and hit_shape.shape.body.body_type == pymunk.Body.STATIC

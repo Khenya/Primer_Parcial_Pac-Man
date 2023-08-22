@@ -42,6 +42,7 @@ class Enemies(arcade.Sprite):
         if not self.check_obstacle(next_x, self.center_y):
             self.center_x = next_x
             self.body.position = (self.center_x, self.center_y)
+            # print("choque")
 
     def check_obstacle(self, x, y):
         # Consultar si hay un cuadrado

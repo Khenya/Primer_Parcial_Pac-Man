@@ -27,6 +27,9 @@ class Player(arcade.Sprite):
         space.add(self.body, self.shape)
     
     def update(self):
+        next_x = self.center_x + self.change_x
+        next_y = self.center_y + self.change_y
+        
         # print(self.body.position)
         # print(self.center_x,self.center_y)       
         if self.change_x != 0 or self.change_y != 0:
@@ -38,3 +41,15 @@ class Player(arcade.Sprite):
         self.center_x = self.body.position.x
         self.center_y = self.body.position.y   
         
+        # # Consultar si hay un cubo en la dirección en la que se moverá el enemigo
+        # if not self.check_obstacle(next_x, self.center_y):
+        #     self.center_x = next_x
+        #     self.body.position = (self.center_x, self.center_y)
+        #     self.center_y = next_y
+        #     # print("choque")
+        
+    
+    def check_obstacle(self, x, y):
+        # Consultar si hay un cuadrado
+        hit_shape = self.space.point_query_nearest((x, y), 0.5, pymunk.ShapeFilter())
+        return hit_shape is not None and hit_shape.shape.body.body_type == pymunk.Body.STATIC

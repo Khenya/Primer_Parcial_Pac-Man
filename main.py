@@ -30,8 +30,8 @@ class PacMan(arcade.Window):
         self.player = Player(
             "img/player.png", 
             0.7, 
-            WIDTH/2, 
-            HEIGHT/2 + 5, 
+            100, 
+            center_y=585, 
             space=self.space
         )
         self.sprites.append(self.player)
@@ -50,12 +50,13 @@ class PacMan(arcade.Window):
         self.enemies_2 = Enemies(
             "img/enemies2.png",
             0.045,
-            center_x=200,
+            center_x=20,
             center_y=445,
             space=self.space
         )
         self.sprites.append(self.enemies_2)
 
+# este si funciona
         # Crear al enemigo 3 y agregarlo a la lista de sprites
         self.enemies_3 = Enemies(
             "img/enemies3.png",
@@ -140,7 +141,12 @@ class PacMan(arcade.Window):
     def on_update(self, delta_time: float):   
         self.space.step(delta_time)
         # perder
-        if arcade.check_for_collision(self.enemies, self.player):
+        if arcade.check_for_collision(
+            self.enemies, self.player) or  arcade.check_for_collision(
+            self.enemies_2, self.player) or arcade.check_for_collision(
+            self.enemies_3, self.player) or  arcade.check_for_collision(
+            self.enemies_4, self.player) or  arcade.check_for_collision(
+            self.enemies_5, self.player):
             self.game_over = True
             return
         # ganar
@@ -167,7 +173,6 @@ class PacMan(arcade.Window):
             self.player.change_y = 0
             # print("choque")
             
-        self.enemies.update()
         self.sprites.update()
         self.update_point()
 

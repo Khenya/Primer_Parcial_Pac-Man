@@ -5,7 +5,6 @@ import pymunk
 WIDTH = 600
 HEIGHT = 600
 SPEED = 1
-
 class Enemies(arcade.Sprite):
     def __init__(self, image, scale, center_x, center_y, space):
         super().__init__(image, scale)
@@ -13,37 +12,35 @@ class Enemies(arcade.Sprite):
         self.center_y = center_y
         self.change_x = SPEED
         self.space = space 
-        
+        self.body = None
+        self.shape = None
+        self.create_physics_body()
+
+    def create_physics_body(self):
         mass = 1.0
         moment = pymunk.moment_for_box(mass, (self.width, self.height))
         self.body = pymunk.Body(mass, moment)
-        self.body.position = (center_x, center_y)
+        self.body.position = (self.center_x, self.center_y)
         
         # Crear una forma de pymunk para el enemigo
-        shape = pymunk.Poly.create_box(self.body, (self.width, self.height))
-        shape.elasticity = 0.0
-        shape.friction = 0.0
-        self.shape = shape
+        self.shape = pymunk.Poly.create_box(self.body, (self.width, self.height))
+        self.shape.elasticity = 0.0
+        self.shape.friction = 0.0
 
         # Agregar el cuerpo y la forma a la space de pymunk
         self.space.add(self.body, self.shape)
 
     def update(self):
         self.center_x += self.change_x
-
         next_x = self.center_x + self.change_x
         if self.left < 0 or self.right > WIDTH:
             self.change_x *= -1
             self.body.position = (self.center_x, self.center_y)
   
-        # Consultar si hay un cubo en la dirección en la que se moverá el fantasma
+        # Consultar si hay un cubo en la dirección en la que se moverá el enemigo
         if not self.check_obstacle(next_x, self.center_y):
             self.center_x = next_x
             self.body.position = (self.center_x, self.center_y)
-        
-        # Coordinar con shape
-        self.center_x = self.body.position.x
-        self.center_y = self.body.position.y
 
     def check_obstacle(self, x, y):
         # Consultar si hay un cuadrado

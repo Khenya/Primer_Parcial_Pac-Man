@@ -31,7 +31,7 @@ class PacMan(arcade.Window):
             "img/player.png", 
             0.7, 
             0, 
-            580, 
+            500, 
             space=self.space
         )
         self.sprites.append(self.player)
@@ -97,26 +97,6 @@ class PacMan(arcade.Window):
                 self.point.append(point)
                 self.sprites.append(point)
 
-    def on_key_press(self, symbol: int, modifiers: int):
-        if symbol == arcade.key.UP:
-            self.player.change_y = SPEED
-            self.player.direction = "up"
-        if symbol == arcade.key.DOWN:
-            self.player.change_y = -SPEED
-            self.player.direction = "down"
-        if symbol == arcade.key.LEFT:
-            self.player.change_x = SPEED
-            self.player.direction = "left"
-        if symbol == arcade.key.RIGHT:
-            self.player.change_x= -SPEED
-            self.player.direction = "right"
-
-    def on_key_release(self, symbol: int, modifiers: int):
-        if symbol in (arcade.key.UP, arcade.key.DOWN):
-            self.player.change_x = 0
-        if symbol in (arcade.key.LEFT, arcade.key.RIGHT):
-            self.player.change_y = 0
-
     def on_update(self, delta_time: float):   
         self.space.step(delta_time)
         # perder
@@ -151,13 +131,26 @@ class PacMan(arcade.Window):
         self.sprites.update()
         self.update_point()
 
-    # puntos
-    def update_point(self):
-        for p in self.point:
-            if arcade.check_for_collision(p, self.player):
-                p.remove_from_sprite_lists()
-                self.score += 1
-            
+    def on_key_press(self, symbol: int, modifiers: int):
+        if symbol == arcade.key.UP:
+            self.player.change_y = SPEED
+            self.player.direction = "up"
+        if symbol == arcade.key.DOWN:
+            self.player.change_y = -SPEED
+            self.player.direction = "down"
+        if symbol == arcade.key.LEFT:
+            self.player.change_x = SPEED
+            self.player.direction = "left"
+        if symbol == arcade.key.RIGHT:
+            self.player.change_x= -SPEED
+            self.player.direction = "right"
+
+    def on_key_release(self, symbol: int, modifiers: int):
+        if symbol in (arcade.key.UP, arcade.key.DOWN):
+            self.player.change_x = 0
+        if symbol in (arcade.key.LEFT, arcade.key.RIGHT):
+            self.player.change_y = 0
+
     def on_draw(self):
         arcade.start_render()
 
@@ -189,6 +182,14 @@ class PacMan(arcade.Window):
         # score
         arcade.draw_text(f"Score: {self.score}", 15, HEIGHT - 20)
         self.sprites.draw()   
+  
+    # puntos
+    def update_point(self):
+        for p in self.point:
+            if arcade.check_for_collision(p, self.player):
+                p.remove_from_sprite_lists()
+                self.score += 1
+            
         
 def main():
     app = PacMan()

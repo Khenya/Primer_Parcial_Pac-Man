@@ -46,6 +46,45 @@ class PacMan(arcade.Window):
         )
         self.sprites.append(self.enemies)
 
+        self.enemies_2 = Enemies(
+            "img/enemies2.png",
+            0.045,
+            center_x=200,
+            center_y=440,
+            space=self.space
+        )
+        self.sprites.append(self.enemies_2)
+
+        # Crear al enemigo 3 y agregarlo a la lista de sprites
+        self.enemies_3 = Enemies(
+            "img/enemies3.png",
+            0.013,
+            center_x=300,
+            center_y=585,
+            space=self.space
+        )
+        self.sprites.append(self.enemies_3)
+
+        # Crear al enemigo 4 y agregarlo a la lista de sprites
+        self.enemies_4 = Enemies(
+            "img/enemies4.png",
+            0.05,
+            center_x = 400,
+            center_y = 165,
+            space=self.space
+        )
+        self.sprites.append(self.enemies_4)
+
+        # Crear al enemigo 5 y agregarlo a la lista de sprites
+        self.enemies_5 = Enemies(
+            "img/enemies5.png",
+            0.05,
+            center_x = 100,
+            center_y = 30,
+            space=self.space
+        )
+        self.sprites.append(self.enemies_5)
+
         # Crear fondo
         # Calcular el tamaño del cuadrado
         self.tamano_cuadrado = 100

@@ -97,13 +97,6 @@ class PacMan(arcade.Window):
                 point.center_y = start_y + i * 40
                 self.point.append(point)
                 self.sprites.append(point)
-            
-        # musica
-        # self.come= arcade.load_sound("musica/pacman_sound.ogg")
-        # self.fail= arcade.load_sound("musica/game_over_sound.ogg")
-    
-    # def play(self):
-    #     self.sound.play(pan=self.pan, volume=self.volume)
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.UP:
@@ -130,7 +123,6 @@ class PacMan(arcade.Window):
         # perder
         if arcade.check_for_collision(self.enemies, self.player):
             self.game_over = True
-             # arcade.play_sound(self.fail,1)
             return
         # ganar
         if len(self.point) == 0:
@@ -173,7 +165,6 @@ class PacMan(arcade.Window):
         # perder y ganar
         if self.game_over:
             arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center")
-            # button_sprite.play()
         elif self.winer:
             arcade.draw_text("WINNER", WIDTH / 2, HEIGHT / 2, arcade.color.GOLD, 36, anchor_x="center", anchor_y="center")
            
@@ -193,8 +184,7 @@ class PacMan(arcade.Window):
         for fila in range(self.filas):
             for columna in range(self.columnas):
                 x = self.x_inicial + (columna * (self.tamano_cuadrado + self.espacio_x))
-                y = self.y_inicial + (fila * (self.tamano_cuadrado + self.espacio_y))
-                
+                y = self.y_inicial + (fila * (self.tamano_cuadrado + self.espacio_y))               
                 arcade.draw_rectangle_outline(x, y, self.tamano_cuadrado, self.tamano_cuadrado, arcade.color.BLUE,5)
         
         # score

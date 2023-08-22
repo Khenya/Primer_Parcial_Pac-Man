@@ -32,7 +32,7 @@ class PacMan(arcade.Window):
             "img/player.png", 
             0.7, 
             0, 
-            0, 
+            580, 
             space=self.space
         )
         self.sprites.append(self.player)
@@ -47,28 +47,20 @@ class PacMan(arcade.Window):
         )
         self.sprites.append(self.enemies)
 
-        # Crear puntos
-        self.point = arcade.SpriteList()
-        for _ in range(23):
-            point = arcade.SpriteSolidColor(5, 5, arcade.color.WHITE)
-            point.center_x = random.randint(10, WIDTH - 10)
-            point.center_y = random.randint(10, HEIGHT - 10)
-            self.point.append(point)
-            self.sprites.append(point)
-
         # Crear fondo
         # Calcular el tamaño del cuadrado
         self.tamano_cuadrado = 100
         # Calcular la cantidad de filas y columnas
-        self.filas = 5
-        self.columnas = 5
+        self.filas = 4
+        self.columnas = 4
         # Calcular el espacio entre los cuadrados
-        self.espacio_x = (WIDTH - (self.columnas * self.tamano_cuadrado)) // (self.columnas + 1) + 30
-        self.espacio_y = (HEIGHT - (self.filas * self.tamano_cuadrado)) // (self.filas + 1) + 30
+        self.espacio_x = (WIDTH - (self.columnas * self.tamano_cuadrado)) // (self.columnas + 1)
+        self.espacio_y = (HEIGHT - (self.filas * self.tamano_cuadrado)) // (self.filas + 1)
 
         # Calcular la posición inicial
-        self.x_inicial = self.espacio_x + self.tamano_cuadrado // 2
-        self.y_inicial = self.espacio_y + self.tamano_cuadrado // 2
+        self.x_inicial = self.espacio_x + self.tamano_cuadrado // 2 + 5
+        self.y_inicial = self.espacio_y + self.tamano_cuadrado // 2 + 5
+        
         for fila in range(self.filas):
             for columna in range(self.columnas):
                 x = self.espacio_x + (columna * (self.tamano_cuadrado + self.espacio_x))
@@ -80,7 +72,20 @@ class PacMan(arcade.Window):
                 forma.friction = 0.0       
                 # Agregar el cuerpo y la forma al espacio
                 self.space.add(cubo_body, forma)
-                
+
+        # Crear puntos
+        self.point = arcade.SpriteList()
+        # Calcular el espacio entre los puntos en la fila
+        point_spacing = 40
+
+        # Crear puntos en la fila
+        for i in range(15):
+            point = arcade.SpriteSolidColor(5, 5, arcade.color.AMBER)
+            point.center_x = 20 + i * point_spacing
+            point.center_y = 580
+            self.point.append(point)
+            self.sprites.append(point)
+    
         # musica
         # self.come= arcade.load_sound("musica/pacman_sound.ogg")
         # self.fail= arcade.load_sound("musica/game_over_sound.ogg")
@@ -181,7 +186,7 @@ class PacMan(arcade.Window):
                 arcade.draw_rectangle_outline(x, y, self.tamano_cuadrado, self.tamano_cuadrado, arcade.color.BLUE,5)
         
         # score
-        arcade.draw_text(f"Score: {self.score}", 10, HEIGHT - 40)
+        arcade.draw_text(f"Score: {self.score}", 15, HEIGHT - 20)
         self.sprites.draw()   
         
 def main():

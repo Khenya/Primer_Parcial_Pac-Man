@@ -42,7 +42,7 @@ class PacMan(arcade.Window):
             "img/enemies.png",  
             0.7, 
             center_x=100, 
-            center_y=300,
+            center_y=305,
             space=self.space
         )
         self.sprites.append(self.enemies)
@@ -76,16 +76,28 @@ class PacMan(arcade.Window):
         # Crear puntos
         self.point = arcade.SpriteList()
         # Calcular el espacio entre los puntos en la fila
-        point_spacing = 40
-
+        point_spacing_x = 40
         # Crear puntos en la fila
-        for i in range(15):
-            point = arcade.SpriteSolidColor(5, 5, arcade.color.AMBER)
-            point.center_x = 20 + i * point_spacing
-            point.center_y = 580
-            self.point.append(point)
-            self.sprites.append(point)
-    
+        for fila in range(5):
+            start_y = HEIGHT + 35 - self.tamano_cuadrado // 2 - fila * 140 
+            for i in range(15):
+                point = arcade.SpriteSolidColor(5, 5, arcade.color.AMBER)
+                point.center_x = 20 + i * point_spacing_x
+                point.center_y = start_y
+                self.point.append(point)
+                self.sprites.append(point)
+        
+        # Crear puntos en las columnas
+        for columna in range(5):
+            start_x = 20
+            start_y = 25  
+            for i in range(15):
+                point = arcade.SpriteSolidColor(5, 5, arcade.color.AMBER)
+                point.center_x = start_x + columna * 140 
+                point.center_y = start_y + i * 40
+                self.point.append(point)
+                self.sprites.append(point)
+            
         # musica
         # self.come= arcade.load_sound("musica/pacman_sound.ogg")
         # self.fail= arcade.load_sound("musica/game_over_sound.ogg")

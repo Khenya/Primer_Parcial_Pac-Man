@@ -17,7 +17,8 @@ class PacMan(arcade.Window):
         self.winer = False
         self.score = 0
         arcade.set_background_color(arcade.color.BLACK)
-        self.custom_font = arcade.load_font("font_name/Munro-2LYe.ttf") 
+        arcade.load_font("font_name/PublicPixel-z84yD.ttf")
+        self.custom_font = "Public Pixel"
         # crear espacio Pymunk
         self.space = pymunk.Space()
         self.space.gravity = (0, 0)  
@@ -173,12 +174,6 @@ class PacMan(arcade.Window):
                 arcade.color.BLUE, border_width=5
             )    
         
-        # perder y ganar
-        if self.game_over:
-            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center", font_name = self.custom_font)
-        elif self.winer:
-            arcade.draw_text("WINNER", WIDTH / 2, HEIGHT / 2, arcade.color.GOLD, 36, anchor_x="center", anchor_y="center")
-        
         # pac man
         for sprite in  self.sprites:
             if isinstance(sprite, Player):
@@ -191,10 +186,16 @@ class PacMan(arcade.Window):
                 else:
                     sprite.angle = 0
         
-        # score
-        arcade.draw_text(f"Score: {self.score}", 15, HEIGHT - 20)
-
         self.sprites.draw()      
+        # perder y ganar
+        if self.game_over:
+            arcade.draw_text("GAME OVER", WIDTH / 2, HEIGHT / 2, arcade.color.ALABAMA_CRIMSON, 36, anchor_x="center", anchor_y="center", font_name = self.custom_font)
+        elif self.winer:
+            arcade.draw_text("WINNER", WIDTH / 2, HEIGHT / 2, arcade.color.GOLD, 36, anchor_x="center", anchor_y="center", font_name = self.custom_font)
+        
+        # score
+        arcade.draw_text(f"Score: {self.score}", 15, HEIGHT - 20, font_name = self.custom_font)
+
             
     # puntos
     def update_point(self):

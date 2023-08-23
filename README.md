@@ -1,5 +1,8 @@
 # Primer_Parcial_Pac-Man
 
+**Nombre:** Brenda Khenya Alvarado Choque
+**Código:** 61186
+
 Bienvenido al proyecto de simulación de Pac-Man. En este proyecto, hemos creado una versión simple del clásico juego Pac-Man. Donde controlarás al famoso personaje amarillo mientras intentas comer todos los puntos sin ser atrapado por los fantasmas que merodean por el laberinto. 
 
 

@@ -23,6 +23,7 @@ En este juego de simulación de Pac-Man, te encontrarás con las siguientes cara
 
 ## Instrucciones de Juego
 </div>
+
 **Objetivo:** El objetivo del juego es comer todos los puntos dispersos por el laberinto sin ser atrapado por los fantasmas. Cada punto que comas aumentará tu puntaje.
 
 **Control:** Controlarás a Pac-Man usando las flechas del teclado. Utiliza las teclas de flecha arriba, abajo, izquierda y derecha para mover a Pac-Man en la dirección deseada.

@@ -18,10 +18,14 @@ class PacMan(arcade.Window):
         self.score = 0
         self.eat_sound = arcade.Sound("music/pacman_sound.ogg")
         self.game_over_sound = arcade.Sound("music/game_over_sound.ogg")
+        self.win_sound = arcade.Sound("music/game_music_level_complete.mp3")
         arcade.set_background_color(arcade.color.BLACK)
+        self.just_died = False
+        self.just_win = False
         # Font
         arcade.load_font("font_name/PublicPixel-z84yD.ttf")
         self.custom_font = "Public Pixel"
+       
         # Crear espacio Pymunk
         self.space = pymunk.Space()
         self.space.gravity = (0, 0)  
@@ -134,10 +138,16 @@ class PacMan(arcade.Window):
             self.enemies_4, self.player) or  arcade.check_for_collision(
             self.enemies_5, self.player):
             self.game_over = True
+            if not self.just_died:
+                self.just_died = True
+                self.game_over_sound.play()
             return
         # ganar
         if len(self.point) == 0:
             self.winer = True
+            if not self.just_win:
+                self.just_win = True
+                self.win_sound.play()
             return
         
         self.sprites.update()

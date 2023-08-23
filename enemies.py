@@ -26,25 +26,19 @@ class Enemies(arcade.Sprite):
         self.shape = pymunk.Poly.create_box(self.body, (self.width, self.height))
         self.shape.elasticity = 0.0
         self.shape.friction = 0.0
-
-        # Agregar el cuerpo y la forma a la space de pymunk
         self.space.add(self.body, self.shape)
 
     def update(self):
         next_x = self.center_x + self.change_x
-        
-        # Rebotar al llegar a los bordes de la pantalla
         if self.left < 0 or self.right > WIDTH:
-            self.change_x *= -1  # Invertir la dirección
+            self.change_x *= -1  
             next_x = self.center_x + self.change_x
 
-        # Consultar si hay un cubo en la dirección en la que se moverá el enemigo
         if not self.check_obstacle(next_x, self.center_y):
             self.center_x = next_x
             self.body.position = (self.center_x, self.center_y)
             # print("choque")
 
     def check_obstacle(self, x, y):
-        # Consultar si hay un cuadrado
         hit_shape = self.space.point_query_nearest((x, y), 0.5, pymunk.ShapeFilter())
         return hit_shape is not None and hit_shape.shape.body.body_type == pymunk.Body.STATIC
